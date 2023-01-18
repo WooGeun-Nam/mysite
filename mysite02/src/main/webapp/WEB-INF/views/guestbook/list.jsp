@@ -1,34 +1,30 @@
+<%@ page import="java.util.List"%>
+<%@ page import="com.douzone.mysite.dao.GuestBookDao"%>
+<%@ page import="com.douzone.mysite.vo.GuestBookVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<% 
+	List<GuestBookVo> list = (List<GuestBookVo>)request.getAttribute("list");
+%>
 <html>
 <head>
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<link href="/assets/css/guestbook.css" rel="stylesheet" type="text/css">
+<link href="<%=request.getContextPath() %>/assets/css/guestbook.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="container">
-		<div id="header">
-			<h1>MySite</h1>
-			<ul>
-				<li><a href="">로그인</a><li>
-				<li><a href="">회원가입</a><li>
-				<li><a href="">회원정보수정</a><li>
-				<li><a href="">로그아웃</a><li>
-				<li>님 안녕하세요 ^^;</li>
-			</ul>
-		</div>
+		<jsp:include page="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="guestbook">
-				<form action="/guestbook" method="post">
+				<form action="<%=request.getContextPath() %>/guestbook" method="post">
 					<input type="hidden" name="a" value="insert">
-					<table>
+					<table border=1 width=500>
 						<tr>
 							<td>이름</td><td><input type="text" name="name"></td>
-							<td>비밀번호</td><td><input type="password" name="pass"></td>
+							<td>비밀번호</td><td><input type="password" name="password"></td>
 						</tr>
 						<tr>
-							<td colspan=4><textarea name="content" id="content"></textarea></td>
+							<td colspan=4><textarea name="message" cols=60 rows=5 style="resize: none;"></textarea></td>
 						</tr>
 						<tr>
 							<td colspan=4 align=right><input type="submit" VALUE=" 확인 "></td>
@@ -37,35 +33,33 @@
 				</form>
 				<ul>
 					<li>
-						<table>
+						<%
+							int i = list.size();
+							for(GuestBookVo vo : list) {
+								
+						%>
+						<table width=510 border=1>
 							<tr>
-								<td>[4]</td>
-								<td>안대혁</td>
-								<td>2015-11-10 11:22:30</td>
-								<td><a href="">삭제</a></td>
+								<td>[<%=i %>]</td>
+								<td><%=vo.getName() %></td>
+								<td><%=vo.getRegDate() %></td>
+								<td><a href="<%=request.getContextPath() %>/guestbook?a=deleteform&&no=<%=vo.getNo()%>">삭제</a></td>
 							</tr>
 							<tr>
-								<td colspan=4>
-								안녕하세요. ^^;<br>
-								하하하하	
-								</td>
+								<td colspan="4"><textarea cols=60 rows=3 style="resize: none;"><%=vo.getMessage() %></textarea></td>
 							</tr>
 						</table>
+						<%
+								i--;
+							}
+						%>
 						<br>
 					</li>
 				</ul>
 			</div>
 		</div>
-		<div id="navigation">
-			<ul>
-				<li><a href="">안대혁</a></li>
-				<li><a href="">방명록</a></li>
-				<li><a href="">게시판</a></li>
-			</ul>
-		</div>
-		<div id="footer">
-			<p>(c)opyright 2015, 2016, 2017, 2018</p>
-		</div>
+		<jsp:include page="/WEB-INF/views/includes/navigation.jsp" />
+		<jsp:include page="/WEB-INF/views/includes/footer.jsp" />
 	</div>
 </body>
 </html>
