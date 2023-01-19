@@ -46,7 +46,7 @@
 								<td><a href="<%=request.getContextPath() %>/guestbook?a=deleteform&&no=<%=vo.getNo()%>">삭제</a></td>
 							</tr>
 							<tr>
-								<td colspan="4"><textarea cols=60 rows=3 style="resize: none;"><%=vo.getMessage() %></textarea></td>
+								<td colspan="4"><textarea readonly cols=60 rows=3 style="resize: none;"><%=vo.getMessage() %></textarea></td>
 							</tr>
 						</table>
 						<%

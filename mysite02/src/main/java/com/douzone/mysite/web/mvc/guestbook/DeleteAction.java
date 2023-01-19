@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.douzone.mysite.dao.GuestBookDao;
 import com.douzone.mysite.vo.GuestBookVo;
 import com.douzone.web.mvc.Action;
+import com.douzone.web.util.MvcUtil;
 
 public class DeleteAction implements Action {
 
@@ -22,7 +23,8 @@ public class DeleteAction implements Action {
 		
 		if (guestBook.getPassword().equals(password)) {
 			new GuestBookDao().deleteByPassword(no, password);
-			response.sendRedirect(request.getContextPath()+"/guestbook");
+			MvcUtil.redirect(request.getContextPath()+"/guestbook", request, response);
+			
 		} else {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter writer = response.getWriter();

@@ -22,6 +22,8 @@ public class UserActionFactory extends ActionFactory {
 			action = new MainAction();
 		} else if ("loginform".equals(actionName)) {
 			action = new LoginFormAction();
+		} else if ("login".equals(actionName)) {
+			action = new LoginAction();
 		} else {
 			action = new MainAction();
 		}
