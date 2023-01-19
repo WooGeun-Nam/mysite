@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.douzone.mysite.dao.UserDao;
 import com.douzone.mysite.vo.UserVo;
 import com.douzone.web.mvc.Action;
 import com.douzone.web.util.MvcUtil;
@@ -27,9 +28,7 @@ public class UpdateFormAction implements Action {
 			return;
 		}
 		
-		// UserVo vo = new UserDao().findByUserNo();
-		
-		UserVo vo = null;
+		UserVo vo = new UserDao().findByUserNo(authUser.getNo());
 		
 		request.setAttribute("vo", vo);
 		MvcUtil.forward("user/updateform", request, response);
