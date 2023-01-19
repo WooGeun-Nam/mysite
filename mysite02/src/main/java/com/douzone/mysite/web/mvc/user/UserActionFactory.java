@@ -17,9 +17,9 @@ public class UserActionFactory extends ActionFactory {
 		} else if ("joinsuccess".equals(actionName)) {
 			action = new JoinSuccessAction();
 		} else if ("logout".equals(actionName)) {
-			action = new MainAction();
+			action = new LogoutAction();
 		} else if ("updateform".equals(actionName)) {
-			action = new MainAction();
+			action = new UpdateFormAction();
 		} else if ("loginform".equals(actionName)) {
 			action = new LoginFormAction();
 		} else if ("login".equals(actionName)) {
@@ -30,5 +30,4 @@ public class UserActionFactory extends ActionFactory {
 		
 		return action;
 	}
-
 }
