@@ -29,16 +29,11 @@ public class UpdateAction implements Action {
 
 		new UserDao().update(vo);
 		
-		vo = new UserDao().findByUserNo(vo.getNo());
-		
-		request.setAttribute("vo", vo);
-		
 		UserVo authUser = new UserVo();
 		authUser.setNo(vo.getNo());
 		authUser.setName(vo.getName());
 		
-		HttpSession session = request.getSession(true);
-		session.setAttribute("authUser", authUser);
+		request.getSession().setAttribute("authUser", authUser);
 		
 		MvcUtil.redirect(request.getContextPath()+"/user?a=updateform", request, response);
 	}
