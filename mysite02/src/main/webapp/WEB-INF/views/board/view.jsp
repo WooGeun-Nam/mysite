@@ -38,7 +38,7 @@
 						<a href="${pageContext.request.contextPath }/board?a=writeform&gno=${vo.gNo }&ono=${vo.oNo }&depth=${vo.depth }">댓글</a>
 					</c:if>
 					<c:if test="${vo.userVo.no == sessionScope.authUser.no }">
-						<a href="">글수정</a>
+						<a href="${pageContext.request.contextPath }/board?a=modifyform&no=${vo.no }">글수정</a>
 					</c:if>
 				</div>
 			</div>

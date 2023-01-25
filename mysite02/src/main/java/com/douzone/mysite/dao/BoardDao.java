@@ -63,6 +63,58 @@ public class BoardDao {
 		return result;
 	}
 
+	public List<BoardVo> findPage(Long page) {
+		List<BoardVo> result = new ArrayList<>();
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = getConnection();
+
+			String sql = "select b.no, b.title, u.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s'), b.depth, u.no "
+					+ "from board b join user u on b.user_no = u.no order by b.g_no desc, b.o_no asc limit ?,5";
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setLong(1, page);
+			
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				BoardVo vo = new BoardVo();
+				vo.setNo(rs.getLong(1));
+				vo.setTitle(rs.getString(2));
+				vo.setHit(rs.getLong(4));
+				vo.setRegDate(rs.getString(5));
+				vo.setDepth(rs.getLong(6));
+				
+				UserVo uVo = new UserVo();
+				uVo.setName(rs.getString(3));
+				uVo.setNo(rs.getLong(7));
+				vo.setUserVo(uVo);
+				
+				result.add(vo);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				System.out.println("error:" + e);
+			}
+		}
+		
+		return result;
+	}
+	
 	public BoardVo findByBoardNo(Long no) {
 		BoardVo result = new BoardVo();
 		
@@ -200,25 +252,85 @@ public class BoardDao {
 		}
 	}
 	
-	public void deleteByPassword(Long no, String password) {
+	public void updateByNo(BoardVo vo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
 		try {
 			conn = getConnection();
 			
-			//3. Statement 준비
-			String sql = "delete from board where no = ? and password = ?";
+			String sql = "update board set title = ?, contents = ? where no = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			//4. binding
-			pstmt.setLong(1, no);
-			pstmt.setString(2, password);
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getContents());
+			pstmt.setLong(3, vo.getNo());
 			
-			//5. SQL 실행
 			pstmt.executeUpdate();
 			
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void updateHit(Long no) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = getConnection();
+			
+			String sql = "update board set hit = hit+1 where no = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setLong(1, no);
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void deleteByNo(Long no) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = getConnection();
+
+			String sql = "delete from board where no = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setLong(1, no);
+
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		} finally {

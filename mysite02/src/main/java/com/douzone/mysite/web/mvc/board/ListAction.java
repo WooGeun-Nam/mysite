@@ -26,8 +26,20 @@ public class ListAction implements Action {
 //			writer.println("<script>alert('로그인 후 이용가능 합니다.'); location.href='"+request.getContextPath()+"/user?a=loginform';</script>");
 //			return;
 //		}
+		Long page = null;
+		if(request.getParameter("page") != null) {
+			page = Long.parseLong(request.getParameter("page"));
+		} else {
+			page = 1L;
+		}
 		
 		List<BoardVo> list = new BoardDao().findAll();
+		int size = (int)Math.ceil(list.size()/5);
+		
+		list = new BoardDao().findPage(page);
+		
+		request.setAttribute("page", page);
+		request.setAttribute("size", size);
 		request.setAttribute("list", list);
 		
 		MvcUtil.forward("board/list", request, response);

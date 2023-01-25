@@ -42,7 +42,7 @@
 							<td>${vo.hit }</td>
 							<td>${vo.regDate }</td>
 							<c:if test="${vo.userVo.no == sessionScope.authUser.no }">
-								<td><a href="" class="del">삭제</a></td>
+								<td><a href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no }" class="del">삭제</a></td>
 							</c:if>
 						</tr>
 					</c:forEach>
@@ -51,11 +51,19 @@
 				<div class="pager">
 					<ul>
 						<li><a href="">◀</a></li>
-						<li><a href="">1</a></li>
-						<li class="selected">2</li>
-						<li><a href="">3</a></li>
-						<li>4</li>
-						<li>5</li>
+						<c:forEach begin="1" end="5" step="1" var="i">
+							<c:choose>
+								<c:when test="${i == page && i <= size}">
+									<li class="selected">${i }</li>
+								</c:when>
+								<c:when test="${i != page && i <= size}">
+									<li><a href="">${i }</a></li>
+								</c:when>
+								<c:otherwise>
+									<li>${i }</li>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
 						<li><a href="">▶</a></li>
 					</ul>
 				</div>					
