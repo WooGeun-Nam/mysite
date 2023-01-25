@@ -34,7 +34,7 @@ public class ListAction implements Action {
 		}
 		
 		List<BoardVo> list = new BoardDao().findAll();
-		int size = (int)Math.ceil(list.size()/5);
+		int size = (int)Math.ceil(list.size()/5d);
 		
 		list = new BoardDao().findPage(page);
 		

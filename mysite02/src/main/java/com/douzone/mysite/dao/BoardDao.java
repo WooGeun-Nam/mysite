@@ -76,7 +76,8 @@ public class BoardDao {
 			String sql = "select b.no, b.title, u.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s'), b.depth, u.no "
 					+ "from board b join user u on b.user_no = u.no order by b.g_no desc, b.o_no asc limit ?,5";
 			pstmt = conn.prepareStatement(sql);
-
+			
+			page = (page-1)*5;
 			pstmt.setLong(1, page);
 			
 			rs = pstmt.executeQuery();
