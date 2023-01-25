@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.douzone.mysite.dao.GuestBookDao;
 import com.douzone.mysite.vo.GuestBookVo;
-import com.douzone.web.mvc.Action;
-import com.douzone.web.util.MvcUtil;
+import com.douzone.web2.mvc.Action;
+import com.douzone.web2.util.MvcUtil;
 
 public class InsertAction implements Action {
 
