@@ -9,7 +9,12 @@ public class BoardActionFactory extends ActionFactory {
 	public Action getAction(String actionName) {
 		Action action = null;
 		
-		if("joinform".equals(actionName)) {
+		if("writeform".equals(actionName)) {
+			action = new WriteFormAction();
+		} else if("write".equals(actionName)) {
+			action = new WriteAction();
+		} else if("view".equals(actionName)) {
+			action = new ViewAction();
 		} else {
 			action = new ListAction();
 		}
