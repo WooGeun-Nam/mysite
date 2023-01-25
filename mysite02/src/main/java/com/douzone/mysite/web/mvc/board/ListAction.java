@@ -1,4 +1,4 @@
-package com.douzone.mysite.web.mvc.user;
+package com.douzone.mysite.web.mvc.board;
 
 import java.io.IOException;
 
@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.douzone.web.mvc.Action;
 import com.douzone.web.util.MvcUtil;
 
-public class JoinFormAction implements Action {
+public class ListAction implements Action {
 
 	@Override
 	public void excute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		MvcUtil.forward("user/joinform", request, response);
+		MvcUtil.forward("board/list", request, response);
 	}
 
 }
