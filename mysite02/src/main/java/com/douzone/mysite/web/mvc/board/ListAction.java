@@ -26,6 +26,14 @@ public class ListAction implements Action {
 //			writer.println("<script>alert('로그인 후 이용가능 합니다.'); location.href='"+request.getContextPath()+"/user?a=loginform';</script>");
 //			return;
 //		}
+		
+		String keyword = null;
+		if(request.getParameter("keyword") != null) {
+			keyword = request.getParameter("keyword");
+		} else {
+			keyword = "";
+		}
+		
 		Long page = null;
 		if(request.getParameter("page") != null) {
 			page = Long.parseLong(request.getParameter("page"));
@@ -33,11 +41,25 @@ public class ListAction implements Action {
 			page = 1L;
 		}
 		
-		List<BoardVo> list = new BoardDao().findAll();
+		List<BoardVo> list = new BoardDao().findAll(keyword);
+		
 		int size = (int)Math.ceil(list.size()/5d);
+		int startNo = (int) (list.size()-(page-1)*5);
 		
-		list = new BoardDao().findPage(page);
+		Long begin = null;
+		if(page%5==0) {
+			begin = (page/5-1)*5+1;
+		} else {
+			begin = (page/5)*5+1;
+		}
+		Long end = begin+4;
 		
+		list = new BoardDao().findPage(page,keyword);
+		
+		request.setAttribute("startno", startNo);
+		request.setAttribute("keyword", keyword);
+		request.setAttribute("begin", begin);
+		request.setAttribute("end", end);
 		request.setAttribute("page", page);
 		request.setAttribute("size", size);
 		request.setAttribute("list", list);

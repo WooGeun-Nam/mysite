@@ -14,8 +14,8 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="" method="post">
-					<input type="text" id="kwd" name="kwd" value="">
+				<form id="search_form" action="${pageContext.request.contextPath }/board" method="post">
+					<input type="text" id="kwd" name="keyword" value="">
 					<input type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
@@ -27,7 +27,7 @@
 						<th>작성일</th>
 						<th>&nbsp;</th>
 					</tr>
-					<c:set var="count" value="${fn:length(list) }"/>
+					<c:set var="count" value="${startno }"/>
 					<c:forEach items="${list }" var="vo" varStatus="status">
 						<tr>
 							<td>${count - status.index }</td>
@@ -51,15 +51,15 @@
 				<div class="pager">
 					<ul>
 						<c:if test="${page != 1 }">
-							<li><a href="${pageContext.request.contextPath }/board?page=${page - 1 }">◀</a></li>
+							<li><a href="${pageContext.request.contextPath }/board?page=${page - 1 }&keyword=${keyword }">◀</a></li>
 						</c:if>
-						<c:forEach begin="1" end="5" step="1" var="i">
+						<c:forEach begin="${begin }" end="${end }" step="1" var="i">
 							<c:choose>
 								<c:when test="${i == page && i <= size}">
 									<li class="selected">${i }</li>
 								</c:when>
 								<c:when test="${i != page && i <= size}">
-									<li><a href="${pageContext.request.contextPath }/board?page=${i }">${i }</a></li>
+									<li><a href="${pageContext.request.contextPath }/board?page=${i }&keyword=${keyword }">${i }</a></li>
 								</c:when>
 								<c:otherwise>
 									<li>${i }</li>
@@ -67,7 +67,7 @@
 							</c:choose>
 						</c:forEach>
 						<c:if test="${page != size }">
-							<li><a href="${pageContext.request.contextPath }/board?page=${page + 1 }">▶</a></li>
+							<li><a href="${pageContext.request.contextPath }/board?page=${page + 1 }&keyword=${keyword }">▶</a></li>
 						</c:if>
 					</ul>
 				</div>					

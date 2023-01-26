@@ -25,7 +25,7 @@ public class WriteAction implements Action {
 		vo.setTitle(title);
 		vo.setContents(contentes);
 		
-		if(null == request.getParameter("gno")) {
+		if("" == request.getParameter("gno")) {
 			new BoardDao().newContents(vo, uVo.getNo());
 		} else {
 			Long gNo = Long.parseLong(request.getParameter("gno"));
