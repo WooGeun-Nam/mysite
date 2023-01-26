@@ -21,10 +21,10 @@
 						<c:forEach begin="5" end="20" step="5" var="i">
 							<c:choose>
 								<c:when test="${row == i}">
-									<option value="${i }" selected>${i }</option>
+									<option value="${i }" selected>${i }개 보기</option>
 								</c:when>
 								<c:otherwise>
-									<option value="${i }">${i }</option>
+									<option value="${i }">${i }개 보기</option>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
