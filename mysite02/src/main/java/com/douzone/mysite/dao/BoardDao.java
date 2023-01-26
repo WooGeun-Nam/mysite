@@ -66,7 +66,7 @@ public class BoardDao {
 		return result;
 	}
 
-	public List<BoardVo> findPage(Long page, String keyword) {
+	public List<BoardVo> findPage(Long page, String keyword,int row) {
 		List<BoardVo> result = new ArrayList<>();
 		
 		Connection conn = null;
@@ -77,14 +77,15 @@ public class BoardDao {
 			conn = getConnection();
 
 			String sql = "select b.no, b.title, u.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s'), b.depth, u.no, b.status "
-					+ "from board b join user u on b.user_no = u.no where title like ? or contents like ? order by b.g_no desc, b.o_no asc limit ?,5";
+					+ "from board b join user u on b.user_no = u.no where title like ? or contents like ? order by b.g_no desc, b.o_no asc limit ?,?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, "%"+keyword+"%");
 			pstmt.setString(2, "%"+keyword+"%");
 			
-			page = (page-1)*5;
+			page = (page-1)*row;
 			pstmt.setLong(3, page);
+			pstmt.setInt(4, row);
 			
 			rs = pstmt.executeQuery();
 

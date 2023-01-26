@@ -27,6 +27,13 @@ public class ListAction implements Action {
 //			return;
 //		}
 		
+		int row = 5;
+		if(request.getParameter("row") != null) {
+			row = Integer.parseInt(request.getParameter("row"));
+		} else {
+			row = 5;
+		}
+		
 		String keyword = null;
 		if(request.getParameter("keyword") != null) {
 			keyword = request.getParameter("keyword");
@@ -43,8 +50,8 @@ public class ListAction implements Action {
 		
 		List<BoardVo> list = new BoardDao().findAll(keyword);
 		
-		int size = (int)Math.ceil(list.size()/5d);
-		int startNo = (int) (list.size()-(page-1)*5);
+		int size = (int)Math.ceil(list.size()/(double)row);
+		int startNo = (int) (list.size()-(page-1)*row);
 		
 		Long begin = null;
 		if(page%5==0) {
@@ -54,8 +61,9 @@ public class ListAction implements Action {
 		}
 		Long end = begin+4;
 		
-		list = new BoardDao().findPage(page,keyword);
+		list = new BoardDao().findPage(page,keyword,row);
 		
+		request.setAttribute("row", row);
 		request.setAttribute("startno", startNo);
 		request.setAttribute("keyword", keyword);
 		request.setAttribute("begin", begin);
