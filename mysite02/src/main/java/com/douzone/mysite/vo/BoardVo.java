@@ -10,6 +10,7 @@ public class BoardVo {
 	private Long oNo;
 	private Long depth;
 	private UserVo userVo;
+	private String status;
 	public Long getNo() {
 		return no;
 	}
@@ -64,9 +65,16 @@ public class BoardVo {
 	public void setUserVo(UserVo userVo) {
 		this.userVo = userVo;
 	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	@Override
 	public String toString() {
 		return "BoardVo [no=" + no + ", title=" + title + ", contents=" + contents + ", hit=" + hit + ", regDate="
-				+ regDate + ", gNo=" + gNo + ", oNo=" + oNo + ", depth=" + depth + ", userVo=" + userVo + "]";
+				+ regDate + ", gNo=" + gNo + ", oNo=" + oNo + ", depth=" + depth + ", userVo=" + userVo + ", status="
+				+ status + "]";
 	}
 }

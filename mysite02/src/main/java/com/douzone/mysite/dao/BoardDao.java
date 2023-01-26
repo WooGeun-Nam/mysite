@@ -76,7 +76,7 @@ public class BoardDao {
 		try {
 			conn = getConnection();
 
-			String sql = "select b.no, b.title, u.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s'), b.depth, u.no "
+			String sql = "select b.no, b.title, u.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s'), b.depth, u.no, b.status "
 					+ "from board b join user u on b.user_no = u.no where title like ? or contents like ? order by b.g_no desc, b.o_no asc limit ?,5";
 			pstmt = conn.prepareStatement(sql);
 			
@@ -95,6 +95,7 @@ public class BoardDao {
 				vo.setHit(rs.getLong(4));
 				vo.setRegDate(rs.getString(5));
 				vo.setDepth(rs.getLong(6));
+				vo.setStatus(rs.getString(8));
 				
 				UserVo uVo = new UserVo();
 				uVo.setName(rs.getString(3));
@@ -183,7 +184,7 @@ public class BoardDao {
 		try {
 			conn = getConnection();
 
-			String sql = "insert into board values(null, ?, ?, 0, now(), (SELECT IFNULL(MAX(g_no) + 1, 1) FROM board b), 1, 0, ?)";
+			String sql = "insert into board values(null, ?, ?, 0, now(), (SELECT IFNULL(MAX(g_no) + 1, 1) FROM board b), 1, 0, ?, 'new')";
 			// 0일때 1로 처리 완료
 			pstmt = conn.prepareStatement(sql);
 			
@@ -225,7 +226,7 @@ public class BoardDao {
 			pstmt1.executeUpdate();
 			pstmt1.close();
 			
-			String sql2 = "insert into board values(null, ?, ?, 0, now(), ?, ?, ?, ?)";
+			String sql2 = "insert into board values(null, ?, ?, 0, now(), ?, ?, ?, ?, 'new')";
 			PreparedStatement pstmt2 = conn.prepareStatement(sql2);
 			pstmt2.setString(1, vo.getTitle());
 			pstmt2.setString(2, vo.getContents());
@@ -266,7 +267,7 @@ public class BoardDao {
 		try {
 			conn = getConnection();
 			
-			String sql = "update board set title = ?, contents = ? where no = ?";
+			String sql = "update board set title = ?, contents = ?, status = 'modify' where no = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -331,7 +332,8 @@ public class BoardDao {
 		try {
 			conn = getConnection();
 
-			String sql = "delete from board where no = ?";
+//			String sql = "delete from board where no = ?";
+			String sql = "update board set status = 'deleted' where no = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 

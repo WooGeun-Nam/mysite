@@ -36,13 +36,25 @@
 								<c:if test="${vo.depth > 0 }">
 									<img src="${pageContext.request.contextPath }/assets/images/reply.png">
 								</c:if>
-								<a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no }">${vo.title }</a>
+								
+								<c:choose>
+									<c:when test="${vo.status != 'deleted' }">
+										<a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no }">${vo.title }</a>
+									</c:when>
+									<c:otherwise>
+										<del>${vo.title }</del>
+									</c:otherwise>
+								</c:choose>
+								
+								<c:if test="${vo.status == 'modify' }">
+									<a style="color:#f40808;">수정됨</a>
+								</c:if>
 							</td>
 							<td>${vo.userVo.name }</td>
 							<td>${vo.hit }</td>
 							<td>${vo.regDate }</td>
-							<c:if test="${vo.userVo.no == sessionScope.authUser.no }">
-								<td><a href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no }" class="del">삭제</a></td>
+							<c:if test="${vo.userVo.no == sessionScope.authUser.no && vo.status != 'deleted' }">
+								<td><a href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no }" onclick="return confirm('삭제하시겠습니까?');" class="del">삭제</a></td>
 							</c:if>
 						</tr>
 					</c:forEach>
