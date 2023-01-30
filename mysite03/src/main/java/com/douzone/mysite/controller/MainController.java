@@ -8,6 +8,8 @@ public class MainController {
 	
 	@RequestMapping("/")
 	public String index() {
-		return "/WEB-INF/views/main/index.jsp";
+		return "main/index";
 	}
+	
+	
 }
