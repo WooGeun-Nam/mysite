@@ -17,7 +17,7 @@
 
 	<!-- Dispatcher Servlet -->
 	<servlet>
-		<servlet-name>spring</servlet-name>
+		<servlet-name>dispatcher</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
@@ -26,10 +26,21 @@
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>spring</servlet-name>
+		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
+	<!-- Common Error Page -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/views/error/404.jsp</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/views/error/500.jsp</location>
+	</error-page>
+
 	<!-- Encoding Filter -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
