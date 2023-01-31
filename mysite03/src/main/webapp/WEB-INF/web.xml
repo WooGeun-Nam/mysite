@@ -24,7 +24,6 @@
 			<param-value>/WEB-INF/spring-servlet.xml</param-value>
 		</init-param>
 	</servlet>
-
 	<servlet-mapping>
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>/</url-pattern>

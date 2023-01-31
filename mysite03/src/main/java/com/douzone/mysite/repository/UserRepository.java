@@ -34,7 +34,7 @@ public class UserRepository {
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			new UserRepositoryException(e.toString());
+			throw new UserRepositoryException(e.toString());
 		} finally {
 			try {
 				if(pstmt != null) {
@@ -75,7 +75,7 @@ public class UserRepository {
 			}
 			
 		} catch (SQLException e) {
-			new UserRepositoryException(e.toString());
+			throw new UserRepositoryException(e.toString());
 		} finally {
 			try {
 				if(pstmt != null) {
@@ -121,7 +121,7 @@ public class UserRepository {
 			}
 			
 		} catch (SQLException e) {
-			System.out.println("error:" + e);
+			throw new UserRepositoryException(e.toString());
 		} finally {
 			try {
 				if(pstmt != null) {
@@ -156,7 +156,7 @@ public class UserRepository {
 			
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("error:" + e);
+			throw new UserRepositoryException(e.toString());
 		} finally {
 			try {
 				if(pstmt != null) {

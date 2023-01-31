@@ -19,10 +19,9 @@ public class GlobalExceptionHandler {
 		System.out.println(errors.toString());
 		
 		// 2. 사과페이지( 3.정상종료 )
-		e.printStackTrace();
 		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("exception",e.toString());
+		mav.addObject("exception", errors.toString());
 		mav.setViewName("error/exception");
 		
 		return mav;
