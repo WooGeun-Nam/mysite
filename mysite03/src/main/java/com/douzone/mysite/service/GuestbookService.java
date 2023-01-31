@@ -17,11 +17,15 @@ public class GuestbookService {
 		return guestbookRepository.findAll();
 	}
 	
-	public void deleteMessage(Long no, String password) {
-		
+	public void addMessage(GuestbookVo vo) {
+		guestbookRepository.insert(vo);
 	}
 	
-	public void addMessage(GuestbookVo vo) {
-		
+	public void deleteMessage(Long no, String password) {
+		guestbookRepository.deleteByPassword(no, password);
+	}
+	
+	public GuestbookVo getByNo(Long no) {
+		return guestbookRepository.findNo(no);
 	}
 }
