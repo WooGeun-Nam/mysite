@@ -60,7 +60,7 @@ public class UserRepository {
 			conn = getConnection();
 			
 			//3. Statement 준비
-			String sql = "select no, name, email, gender from user where no = ?";
+			String sql = "select name, email, gender from user where no = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, no);
@@ -68,10 +68,9 @@ public class UserRepository {
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				result = new UserVo();
-				result.setNo(rs.getLong(1));
-				result.setName(rs.getString(2));
-				result.setEmail(rs.getString(3));
-				result.setGender(rs.getString(4));
+				result.setName(rs.getString(1));
+				result.setEmail(rs.getString(2));
+				result.setGender(rs.getString(3));
 			}
 			
 		} catch (SQLException e) {

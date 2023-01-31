@@ -62,9 +62,14 @@ public class UserController {
 	
 	@RequestMapping(value="/update", method=RequestMethod.GET)
 	public String update(HttpSession session, Model model) {
+		// Access Control
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/";
+		}
+		//////////////////////////
 		
-		UserVo vo = userService.getUserNo(authUser.getNo());
+		UserVo vo = userService.getUserByNo(authUser.getNo());
 		
 		model.addAttribute("vo", vo);
 		
@@ -72,15 +77,24 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/update", method=RequestMethod.POST)
-	public String update(HttpSession session, UserVo vo) {
-		if("".equals(vo.getPassword())) {
-			return "redirect:/user/update";
+	public String update(HttpSession session, UserVo vo, Model model) {
+		// Access Control
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/";
 		}
+		////////////////////////// 횡단 관심
+		
+		if("".equals(vo.getPassword())) {
+            model.addAttribute("msg","비밀번호를 입력하세요");
+            model.addAttribute("url","/user/update");
+			return "tools/redirect";
+		}
+		
+		vo.setNo(authUser.getNo());
 		
 		userService.update(vo);
 		
-		UserVo authUser = new UserVo();
-		authUser.setNo(vo.getNo());
 		authUser.setName(vo.getName());
 		
 		session.setAttribute("authUser", authUser);

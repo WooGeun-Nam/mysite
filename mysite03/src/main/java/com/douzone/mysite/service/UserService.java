@@ -10,7 +10,8 @@ import com.douzone.mysite.vo.UserVo;
 public class UserService {
 	@Autowired
 	private UserRepository userRepository;
-
+	// UserRepository 가 없으면 작동하지 않는다 -> 의존관계
+	
 	public void join(UserVo vo) {
 		userRepository.insert(vo);
 	}
@@ -23,7 +24,7 @@ public class UserService {
 		userRepository.update(vo);
 	}
 
-	public UserVo getUserNo(Long no) {
+	public UserVo getUserByNo(Long no) {
 		return userRepository.findByUserNo(no);
 	}
 }
