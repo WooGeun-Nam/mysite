@@ -1,43 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="user">
-	<insert id="insert" parameterType="uservo">
+<mapper namespace="guestbook">
+	<!-- ToCamelCase false 일때 -->
+	<!--
+	<resultMap id="findAllList" type="guestbookvo">
+		<id property="no" column="no" />
+		<result property="name" column="name" />
+		<result property="password" column="password" />
+		<result property="message" column="message" />
+		<result property="regDate" column="reg_date" />
+	</resultMap> -->
+	<!-- resultMap="findAllList" -->
+	
+	<select id="findAll" resultType="guestbookvo" >
 		<![CDATA[
-			insert into user values(null, #{name }, #{email }, password(#{password }), #{gender }, now())
+			select no, name, password, message, date_format(reg_date, '%Y-%m-%d') as regDate
+			from guestbook 
+			order by no desc
 		]]>
+	</select>
+	
+	<select id="findNo" resultType="guestbookvo" parameterType="long">
+		<![CDATA[
+			select no, name, password, message, date_format(reg_date, '%Y-%m-%d') as regDate 
+			from guestbook where no = #{no }
+			order by no desc
+		]]>
+	</select>
+	
+	<insert id="insert" parameterType="guestbookvo">
+		<![CDATA[
+			insert into guestbook values(null, #{name }, #{password }, #{message }, now())
+		]]>
+		<selectKey keyProperty="no" resultType="Long" order="AFTER">
+			<![CDATA[
+				select last_insert_id()
+			]]>
+		</selectKey>
 	</insert>
 	
-	<select id="findByEmailAndPassword" resultType="uservo" parameterType="map">
+	<delete id="deleteByNoAndPassword" parameterType="map" >
 		<![CDATA[
-			select no, name 
-			from user 
-			where email = #{e } 
-			and password=password(#{p })
+			delete 
+			from guestbook 
+			where no = #{no } and password = #{password }
 		]]>
-	</select>
+	</delete>
 	
-	<select id="findByUserNo" resultType="uservo" parameterType="long">
-		<![CDATA[
-			select name, email, gender 
-			from user 
-			where no = #{no }
-		]]>
-	</select>
-	
-	<update id="update" parameterType="uservo">
-		<choose>
-			<when test='password == ""'>
-				<![CDATA[
-					update user set name = #{name }, gender = #{gender } where no = #{no }
-				]]>
-			</when>
-			<otherwise>
-				<![CDATA[
-					update user set name = #{name }, password = password(#{password }), gender = #{gender } 
-					where no = #{no }
-				]]>
-			</otherwise>
-		</choose>
-	</update>
 </mapper>
