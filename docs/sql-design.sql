@@ -14,9 +14,11 @@ desc board;
 
 select * from board;
 
+select * from guestbook;
+
 select * from user;
 
-select b.no, b.title, u.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s'), b.depth, u.no from board b join user u on b.user_no = u.no where title like '%%' order by b.g_no desc, b.o_no asc limit 0,5 ;
+select b.no, b.title, u.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s'), b.depth, u.no from board b join user u on b.user_no = u.no where title like '%대래댓%' or contents like '%대래댓%' order by b.g_no desc, b.o_no asc limit 0,5 ;
 
 insert into board values(null, '바빠요', '바쁩니다링', 0, now(), 1, 1, 0, 3);
 insert into board values(null, '바빠요', '바쁩니다링', 0, now(), 1, 2, 1, 4);
@@ -26,3 +28,8 @@ insert into board values(null, '나는둘리당', '에베베베', 0, now(), (SEL
 select b.no, b.title, u.name, b.hit, date_format(b.reg_date, '%Y-%m-%d %h:%i:%s'), b.depth from board b join user u on b.user_no = u.no order by b.g_no desc, b.o_no asc;
 
 update board set title = 'title', contents = 'contents' where no = 7;
+
+update user set email = 'ddochi@gmail.com' where no = 3;
+
+select no, title, contents, hit, date_format(reg_date, '%Y-%m-%d') as regDate, g_no, o_no, depth, user_no as userNo
+from board where no = 26 and user_no = 1;
