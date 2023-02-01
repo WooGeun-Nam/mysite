@@ -33,12 +33,12 @@
 					</tr>
 				</table>
 				<div class="bottom">
-					<a href="#" onClick="history.back();">글목록</a>
+					<a href="${pageContext.request.contextPath }/board/">글목록</a>
 					<c:if test="${not empty sessionScope.authUser }">
-						<a href="${pageContext.request.contextPath }/board?a=writeform&gno=${vo.gNo }&ono=${vo.oNo }&depth=${vo.depth }">댓글</a>
+						<a href="${pageContext.request.contextPath }/board/write?gNo=${vo.gNo }&oNo=${vo.oNo }&depth=${vo.depth }">댓글</a>
 					</c:if>
 					<c:if test="${vo.userVo.no == sessionScope.authUser.no }">
-						<a href="${pageContext.request.contextPath }/board?a=modifyform&no=${vo.no }">글수정</a>
+						<a href="${pageContext.request.contextPath }/board/modify?no=${vo.no }">글수정</a>
 					</c:if>
 				</div>
 			</div>

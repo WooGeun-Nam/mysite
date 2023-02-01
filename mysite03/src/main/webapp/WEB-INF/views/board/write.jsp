@@ -14,10 +14,9 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board">
-					<input type = "hidden" name = "a" value="write">
-					<input type = "hidden" name = "gno" value="${vo.gNo }">
-					<input type = "hidden" name = "ono" value=${vo.oNo }>
+				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board/write">
+					<input type = "hidden" name = "gNo" value="${vo.gNo }">
+					<input type = "hidden" name = "oNo" value=${vo.oNo }>
 					<input type = "hidden" name = "depth" value="${vo.depth }">
 					<table class="tbl-ex">
 						<tr>
@@ -35,7 +34,7 @@
 						</tr>
 					</table>
 					<div class="bottom">
-						<a href="${pageContext.request.contextPath }/board">취소</a>
+						<a href="#" onClick="history.back();">취소</a>
 						<input type="submit" value="등록">
 					</div>
 				</form>				

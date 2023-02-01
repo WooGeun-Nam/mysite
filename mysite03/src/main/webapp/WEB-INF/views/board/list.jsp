@@ -16,11 +16,11 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="${pageContext.request.contextPath }/board" method="post">
-					<select name="rows" onchange="location.href='${pageContext.request.contextPath }/board?page=1&row='+this.value">
+				<form id="search_form" action="${pageContext.request.contextPath }/board/" method="post">
+					<select name="listSizes" onchange="location.href='${pageContext.request.contextPath }/board/?no=1&row='+this.value">
 						<c:forEach begin="5" end="20" step="5" var="i">
 							<c:choose>
-								<c:when test="${row == i}">
+								<c:when test="${listSize == i}">
 									<option value="${i }" selected>${i }개 보기</option>
 								</c:when>
 								<c:otherwise>
@@ -53,7 +53,7 @@
 								</c:if> <c:choose>
 									<c:when test="${vo.status != 'deleted' }">
 										<a
-											href="${pageContext.request.contextPath }/board?a=view&no=${vo.no }">${vo.title }</a>
+											href="${pageContext.request.contextPath }/board/view?no=${vo.no }">${vo.title }</a>
 									</c:when>
 									<c:otherwise>
 										<del>${vo.title }</del>
@@ -68,7 +68,7 @@
 							<c:if
 								test="${vo.userVo.no == sessionScope.authUser.no && vo.status != 'deleted' }">
 								<td><a
-									href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no }"
+									href="${pageContext.request.contextPath }/board/delete?no=${vo.no }"
 									onclick="return confirm('삭제하시겠습니까?');" class="del">삭제</a></td>
 							</c:if>
 						</tr>
@@ -77,34 +77,34 @@
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-						<c:if test="${page != 1 }">
+						<c:if test="${pageNo != 1 }">
 							<li><a
-								href="${pageContext.request.contextPath }/board?page=${page - 1 }&keyword=${keyword }&row=${row }">◀</a></li>
+								href="${pageContext.request.contextPath }/board/?no=${pageNo - 1 }&keyword=${keyword }&row=${listSize }">◀</a></li>
 						</c:if>
 						<c:forEach begin="${begin }" end="${end }" step="1" var="i">
 							<c:choose>
-								<c:when test="${i == page && i <= size}">
+								<c:when test="${i == pageNo && i <= size}">
 									<li class="selected">${i }</li>
 								</c:when>
-								<c:when test="${i != page && i <= size}">
+								<c:when test="${i != pageNo && i <= size}">
 									<li><a
-										href="${pageContext.request.contextPath }/board?page=${i }&keyword=${keyword }&row=${row }">${i }</a></li>
+										href="${pageContext.request.contextPath }/board/?no=${i }&keyword=${keyword }&row=${listSize }">${i }</a></li>
 								</c:when>
 								<c:otherwise>
 									<li>${i }</li>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
-						<c:if test="${page != size }">
+						<c:if test="${pageNo != size }">
 							<li><a
-								href="${pageContext.request.contextPath }/board?page=${page + 1 }&keyword=${keyword }&row=${row }">▶</a></li>
+								href="${pageContext.request.contextPath }/board/?no=${pageNo + 1 }&keyword=${keyword }&row=${listSize }">▶</a></li>
 						</c:if>
 					</ul>
 				</div>
 				<!-- pager 추가 -->
 				<div class="bottom">
 					<c:if test="${not empty sessionScope.authUser }">
-						<a href="${pageContext.request.contextPath }/board?a=writeform"
+						<a href="${pageContext.request.contextPath }/board/write"
 							id="new-book">글쓰기</a>
 					</c:if>
 				</div>
