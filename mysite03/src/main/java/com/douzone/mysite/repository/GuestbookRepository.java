@@ -8,13 +8,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.douzone.mysite.vo.GuestbookVo;
 
 @Repository
 public class GuestbookRepository {
-
+	@Autowired
+	private DataSource dataSource;
+	
 	public List<GuestbookVo> findAll() {
 		List<GuestbookVo> result = new ArrayList<>();
 		
@@ -24,7 +29,7 @@ public class GuestbookRepository {
 
 		try {
 			// 1. JDBC Driver Loading
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			// 3. Statement 준비
 			String sql = "select no, name, password, message, date_format(reg_date, '%Y-%m-%d') from guestbook order by no desc";
@@ -72,7 +77,7 @@ public class GuestbookRepository {
 
 		try {
 			// 1. JDBC Driver Loading
-			conn = getConnection();
+			conn = dataSource.getConnection();
 
 			// 3. Statement 준비
 			String sql = "select no, name, password, message, date_format(reg_date, '%Y-%m-%d') from guestbook where no = ? order by no desc";
@@ -118,7 +123,7 @@ public class GuestbookRepository {
 		PreparedStatement pstmt = null;
 		
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 			
 			//3. Statement 준비
 			String sql = "insert into guestbook values(null, ?, ?, ?, now())";
@@ -154,7 +159,7 @@ public class GuestbookRepository {
 		PreparedStatement pstmt = null;
 		
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 			
 			//3. Statement 준비
 			String sql = "delete from guestbook where no = ? and password = ?";
@@ -184,18 +189,4 @@ public class GuestbookRepository {
 			}
 		}
 	}
-	
-	private Connection getConnection() throws SQLException {
-		Connection conn = null;
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			String url = "jdbc:mariadb://"+StaticIP.IP+":"+StaticIP.PORT+"/webdb?charset=utf8";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return conn;
-	}
 }
-
-// <td colspan=4><%=vo.getMessage() %></td> <!-- 멀티라인으로 개행까지 되게끔 -->
