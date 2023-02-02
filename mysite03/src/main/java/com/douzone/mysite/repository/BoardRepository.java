@@ -46,8 +46,11 @@ public class BoardRepository {
 	}
 	
 	public void replyContents(BoardVo vo) {
-		sqlSession.update("board.replyUpdate", vo);
 		sqlSession.insert("board.replyContents", vo);
+	}
+	
+	public void replyUpdate(BoardVo vo) {
+		sqlSession.update("board.replyUpdate", vo);
 	}
 	
 	public void updateByNo(BoardVo vo) {

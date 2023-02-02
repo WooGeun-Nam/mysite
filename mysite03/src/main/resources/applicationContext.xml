@@ -21,6 +21,10 @@
 		<property name="username" value="webdb" />
 		<property name="password" value="webdb" />
 	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	    <constructor-arg ref="dataSource" />
+	</bean>
 
 	<!-- MyBatis SqlSessionFactory --> 
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 

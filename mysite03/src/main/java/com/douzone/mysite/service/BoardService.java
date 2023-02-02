@@ -5,7 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.douzone.mysite.repository.BoardRepository;
 import com.douzone.mysite.vo.BoardVo;
@@ -15,14 +19,30 @@ public class BoardService {
 	@Autowired
 	private BoardRepository boardRepository;
 	
+	@Autowired
+	private DataSourceTransactionManager dataSourceTransactionManager;
+	
 	public void addContents(BoardVo vo) {
 		if(null == vo.getgNo()) {
 			boardRepository.addContents(vo);
 		} else {
+			DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+			def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+			TransactionStatus status = dataSourceTransactionManager.getTransaction(def);
+			
 			vo.setgNo(vo.getgNo());
 			vo.setoNo(vo.getoNo()+1);
 			vo.setDepth(vo.getDepth()+1);
-			boardRepository.replyContents(vo);
+			
+			try {
+				boardRepository.replyUpdate(vo);
+			    boardRepository.replyContents(vo);
+			    dataSourceTransactionManager.commit(status);
+			}
+			catch (Exception e) {
+				dataSourceTransactionManager.rollback(status);
+			    throw e;
+			}
 		}
 	}
 	
