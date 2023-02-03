@@ -33,3 +33,8 @@ update user set email = 'ddochi@gmail.com' where no = 3;
 
 select no, title, contents, hit, date_format(reg_date, '%Y-%m-%d') as regDate, g_no, o_no, depth, user_no as userNo
 from board where no = 26 and user_no = 1;
+
+select count(*)
+from board
+limit 0,5;
+
