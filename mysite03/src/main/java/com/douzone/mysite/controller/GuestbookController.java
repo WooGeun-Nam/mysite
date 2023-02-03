@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.douzone.mysite.repository.GuestbookRepository;
 import com.douzone.mysite.service.GuestbookService;
 import com.douzone.mysite.vo.GuestbookVo;
 
