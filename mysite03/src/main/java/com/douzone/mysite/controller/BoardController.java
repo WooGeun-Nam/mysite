@@ -37,9 +37,14 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/view")
-	public String view(HttpServletRequest request, HttpServletResponse response, Model model, Long no) {
+	public String view(HttpServletRequest request, HttpServletResponse response, 
+			Model model, Long no, 
+			int pageno, String keyword, int listsize) {
 		BoardVo vo = boardService.getContents(no);
 		model.addAttribute("vo", vo);
+		model.addAttribute("pageNo", pageno);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("listSize", listsize);
 		
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null && cookies.length > 0) {

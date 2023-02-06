@@ -53,7 +53,7 @@
 								</c:if> <c:choose>
 									<c:when test="${vo.status != 'deleted' }">
 										<a
-											href="${pageContext.request.contextPath }/board/view?no=${vo.no }">${vo.title }</a>
+											href="${pageContext.request.contextPath }/board/view?no=${vo.no }&pageno=${pageNo }&keyword=${keyword }&listsize=${listSize }">${vo.title }</a>
 									</c:when>
 									<c:otherwise>
 										<del>${vo.title }</del>

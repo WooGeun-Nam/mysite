@@ -33,7 +33,7 @@
 					</tr>
 				</table>
 				<div class="bottom">
-					<a href="${pageContext.request.contextPath }/board/">글목록</a>
+					<a href="${pageContext.request.contextPath }/board/?no=${pageNo }&keyword=${keyword }&row=${listSize }">글목록</a>
 					<c:if test="${not empty sessionScope.authUser }">
 						<a href="${pageContext.request.contextPath }/board/write?gNo=${vo.gNo }&oNo=${vo.oNo }&depth=${vo.depth }">댓글</a>
 					</c:if>
