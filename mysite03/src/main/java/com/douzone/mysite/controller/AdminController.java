@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.douzone.mysite.security.Auth;
 
 
-@Auth(role="Admin")
+@Auth(role="ADMIN")
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
