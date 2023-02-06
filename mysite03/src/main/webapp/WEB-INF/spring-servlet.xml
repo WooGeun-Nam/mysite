@@ -36,6 +36,16 @@
 	<!-- Default Servlet Handler --> 
 	<mvc:default-servlet-handler/>
 
+	<!-- Interceptors -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<!--  DefaultServletHandler 제외 -->
+			<mvc:exclude-mapping path="/assets/**"/>
+			<bean class="com.douzone.mysite.security.AuthInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
 	<!-- ViewResolver -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 	   <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />

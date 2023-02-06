@@ -76,6 +76,7 @@ public class UserController {
 	
 	@RequestMapping(value="/update", method=RequestMethod.GET)
 	public String update(HttpSession session, Model model) {
+		// @AuthUser UserVo authUser -> Argument Reserve
 		// Access Control
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if(authUser == null) {
