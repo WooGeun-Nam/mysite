@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.douzone.mysite.security.Auth;
+import com.douzone.mysite.security.AuthUser;
 import com.douzone.mysite.service.BoardService;
 import com.douzone.mysite.vo.BoardVo;
 import com.douzone.mysite.vo.UserVo;
@@ -68,14 +69,9 @@ public class BoardController {
 		return "board/view";
 	}
 	
+	@Auth
 	@RequestMapping("/delete")
-	public String delete(HttpSession session, Long no, Model model) {
-		////////////AC
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
-		//////////////
+	public String delete(@AuthUser UserVo authUser, Long no, Model model) {
 		boardService.deleteContents(no, authUser.getNo());
 		
         model.addAttribute("msg","삭제 되었습니다.");
@@ -83,15 +79,9 @@ public class BoardController {
 		return "tools/redirect";
 	}
 	
+	@Auth
 	@RequestMapping(value="/modify", method=RequestMethod.GET)
-	public String modify(Model model, Long no , HttpSession session) {
-		////////////AC
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
-		//////////////
-		
+	public String modify(@AuthUser UserVo authUser, Model model, Long no) {
 		BoardVo vo = boardService.getContents(no, authUser.getNo());
 		
 		model.addAttribute("vo", vo);
@@ -99,15 +89,9 @@ public class BoardController {
 		return "board/modify";
 	}
 	
+	@Auth
 	@RequestMapping(value="/modify", method=RequestMethod.POST)
-	public String modify(BoardVo vo, HttpSession session) {
-		////////////AC
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
-		//////////////
-		
+	public String modify(BoardVo vo) {
 		boardService.updateContents(vo);
 		
 		return "redirect:/board/view?no="+vo.getNo();
@@ -116,7 +100,6 @@ public class BoardController {
 	@Auth
 	@RequestMapping(value="/write", method=RequestMethod.GET)
 	public String write(Model model, BoardVo vo) {
-		
 		if(null != vo.getgNo()) {
 			model.addAttribute("vo", vo);
 		}
@@ -124,16 +107,10 @@ public class BoardController {
 		return "board/write";
 	}
 	
+	@Auth
 	@RequestMapping(value="/write", method=RequestMethod.POST)
-	public String write(HttpSession session, BoardVo vo) {
-		////////////AC
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
-		//////////////
-		
-		vo.setUserVo((UserVo)session.getAttribute("authUser"));
+	public String write(@AuthUser UserVo authUser, BoardVo vo) {
+		vo.setUserVo(authUser);
 		
 		boardService.addContents(vo);
 		
