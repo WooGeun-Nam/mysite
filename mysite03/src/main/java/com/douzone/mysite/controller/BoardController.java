@@ -69,7 +69,12 @@ public class BoardController {
 	
 	@RequestMapping("/delete")
 	public String delete(HttpSession session, Long no, Model model) {
+		////////////AC
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/";
+		}
+		//////////////
 		boardService.deleteContents(no, authUser.getNo());
 		
         model.addAttribute("msg","삭제 되었습니다.");
@@ -79,7 +84,13 @@ public class BoardController {
 	
 	@RequestMapping(value="/modify", method=RequestMethod.GET)
 	public String modify(Model model, Long no , HttpSession session) {
+		////////////AC
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/";
+		}
+		//////////////
+		
 		BoardVo vo = boardService.getContents(no, authUser.getNo());
 		
 		model.addAttribute("vo", vo);
@@ -88,14 +99,28 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/modify", method=RequestMethod.POST)
-	public String modify(BoardVo vo) {
+	public String modify(BoardVo vo, HttpSession session) {
+		////////////AC
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/";
+		}
+		//////////////
+		
 		boardService.updateContents(vo);
 		
 		return "redirect:/board/view?no="+vo.getNo();
 	}
 	
 	@RequestMapping(value="/write", method=RequestMethod.GET)
-	public String write(Model model, BoardVo vo) {
+	public String write(Model model, BoardVo vo, HttpSession session) {
+		////////////AC
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/";
+		}
+		//////////////
+		
 		if(null != vo.getgNo()) {
 			model.addAttribute("vo", vo);
 		}
@@ -105,6 +130,13 @@ public class BoardController {
 	
 	@RequestMapping(value="/write", method=RequestMethod.POST)
 	public String write(HttpSession session, BoardVo vo) {
+		////////////AC
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/";
+		}
+		//////////////
+		
 		vo.setUserVo((UserVo)session.getAttribute("authUser"));
 		
 		boardService.addContents(vo);
