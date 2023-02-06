@@ -31,6 +31,9 @@
 			   </property>
 			</bean>
 		</mvc:message-converters>
+		<mvc:argument-resolvers>
+			<bean class="com.douzone.mysite.security.AuthUserHandlerMethodArgumentResolver"></bean>
+		</mvc:argument-resolvers>
 	</mvc:annotation-driven>
 
 	<!-- Default Servlet Handler --> 
@@ -39,9 +42,21 @@
 	<!-- Interceptors -->
 	<mvc:interceptors>
 		<mvc:interceptor>
+			<mvc:mapping path="/user/auth"/>
+			<bean class="com.douzone.mysite.security.LoginInterceptor"/>
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/user/logout"/>
+			<bean class="com.douzone.mysite.security.LogoutInterceptor"/>
+		</mvc:interceptor>		
+		
+		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
 			<!--  DefaultServletHandler 제외 -->
 			<mvc:exclude-mapping path="/assets/**"/>
+			<mvc:exclude-mapping path="/user/auth"/>
+			<mvc:exclude-mapping path="/user/logout"/>
 			<bean class="com.douzone.mysite.security.AuthInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>
