@@ -62,3 +62,9 @@ insert into site values(null, 'MySite', '안녕하세요. 남우근의 mysite에
 update site 
 set title='YourSite'
 where no=1;
+
+desc gallery;
+
+			select no, url
+			from gallery
+			order by no desc
