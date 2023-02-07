@@ -59,6 +59,15 @@
 			<mvc:exclude-mapping path="/user/logout"/>
 			<bean class="com.douzone.mysite.security.AuthInterceptor"/>
 		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<!--  DefaultServletHandler 제외 -->
+			<mvc:exclude-mapping path="/assets/**"/>
+			<mvc:exclude-mapping path="/user/auth"/>
+			<mvc:exclude-mapping path="/user/logout"/>
+			<bean class="com.douzone.mysite.security.siteInterceptor"/>
+		</mvc:interceptor>
 	</mvc:interceptors>
 	
 	<!-- ViewResolver -->
@@ -93,7 +102,7 @@
 	</bean>
 	
 	<!-- mvc url-resource mapping -->
-	<mvc:resources location="/assets/upload-images/**" mapping="file:/Users/nam-woogeun/mysite-uploads/"/>
+	<mvc:resources mapping="/assets/upload-images/**" location="file:/Users/nam-woogeun/mysite-uploads/"/>
 
 	<context:annotation-config />
 	<context:component-scan base-package="com.douzone.mysite.controller" />
