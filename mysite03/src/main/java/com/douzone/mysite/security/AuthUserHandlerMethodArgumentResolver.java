@@ -22,12 +22,11 @@ public class AuthUserHandlerMethodArgumentResolver implements HandlerMethodArgum
 			NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory) throws Exception {
 		
 		if(!supportsParameter(parameter)) {
-			return WebArgumentResolver.UNRESOLVED;
+			return WebArgumentResolver.UNRESOLVED; // null
 		}
 		
 		HttpServletRequest request = (HttpServletRequest)webRequest.getNativeRequest();
 		HttpSession session = request.getSession();
-		
 		
 		return session.getAttribute("authUser");
 	}
