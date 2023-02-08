@@ -37,16 +37,13 @@ public class AdminController {
 	public String update(SiteVo vo, @RequestParam("file") MultipartFile file) {
 		String url = fileuploadService.restore(file);
 		
-		vo.setProfile(url);
+		if(url != null) {
+			vo.setProfile(url);
+		}
 		
 		siteService.updateSite(vo);
 		
-		if(url == null) {
-			SiteVo site = siteService.getSite();
-			vo.setProfile(site.getProfile());
-		}
-		
-		servletContext.setAttribute("site", vo);
+		servletContext.setAttribute("sitevo", vo);
 		
 		return "redirect:/admin";
 	}
