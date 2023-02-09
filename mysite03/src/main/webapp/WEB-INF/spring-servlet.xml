@@ -104,6 +104,9 @@
 	<!-- mvc url-resource mapping -->
 	<mvc:resources mapping="/assets/upload-images/**" location="file:/Users/nam-woogeun/mysite-uploads/"/>
 
+	<!-- ApplicationContextEventListener -->
+	<bean class="com.douzone.mysite.event.ApplicationContextEventListener"></bean>
+
 	<context:annotation-config />
 	<context:component-scan base-package="com.douzone.mysite.controller" />
 	
