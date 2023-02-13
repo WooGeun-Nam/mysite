@@ -10,6 +10,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.douzone.mysite.config.web.FileuploadConfig;
+import com.douzone.mysite.config.web.MessageResourceConfig;
 import com.douzone.mysite.config.web.MvcConfig;
 import com.douzone.mysite.config.web.SecurityConfig;
 import com.douzone.mysite.event.ApplicationContextEventListener;
@@ -19,7 +21,7 @@ import com.douzone.mysite.interceptor.SiteInterceptor;
 @EnableAspectJAutoProxy
 @EnableWebMvc
 @ComponentScan({"com.douzone.mysite.controller"})
-@Import({MvcConfig.class,SecurityConfig.class})
+@Import({MvcConfig.class,SecurityConfig.class,MessageResourceConfig.class,FileuploadConfig.class})
 public class WebConfig implements WebMvcConfigurer {
 
 	@Bean
