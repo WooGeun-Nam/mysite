@@ -5,6 +5,8 @@ import javax.sql.DataSource;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionManager;
 
 @Configuration
 public class DBConfig {
@@ -19,6 +21,6 @@ public class DBConfig {
 		dataSource.setInitialSize(10);
 		dataSource.setMaxActive(20);
 		
-		return null;
+		return dataSource;
 	}
 }

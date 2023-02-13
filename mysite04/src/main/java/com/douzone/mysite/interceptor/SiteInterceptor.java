@@ -10,7 +10,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.douzone.mysite.service.SiteService;
 import com.douzone.mysite.vo.SiteVo;
 
-public class siteInterceptor implements HandlerInterceptor {
+public class SiteInterceptor implements HandlerInterceptor {
 	@Autowired
 	private ServletContext servletContext;
 	@Autowired
