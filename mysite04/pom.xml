@@ -1,10 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.douzone</groupId>
-		<artifactId>mysite</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+	<groupId>com.douzone</groupId>
+	<version>0.0.1-SNAPSHOT</version>
 	<artifactId>mysite04</artifactId>
 	<packaging>war</packaging>
 	<properties>
@@ -13,28 +10,28 @@
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 		<org.springframework-version>5.3.25</org.springframework-version>
-    	<jcloverslf4j.version>1.7.36</jcloverslf4j.version>		
-    	<logback.version>1.2.11</logback.version>
+		<jcloverslf4j.version>1.7.36</jcloverslf4j.version>
+		<logback.version>1.2.11</logback.version>
 	</properties>
 	<dependencies>
 		<!-- spring mvc -->
 		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-webmvc</artifactId>
-		    <version>${org.springframework-version}</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${org.springframework-version}</version>
 			<!-- JCL 제외 -->
 			<exclusions>
-			   <exclusion>
-				  <groupId>org.springframework</groupId>
-				  <artifactId>spring-jcl</artifactId>
-			   </exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-jcl</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<!-- spring Aspect -->
 		<dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-aspects</artifactId>
-		    <version>${org.springframework-version}</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${org.springframework-version}</version>
 		</dependency>
 		<!-- spring jdbc -->
 		<dependency>
@@ -48,7 +45,6 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-		
 		<!-- File Upload -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
@@ -60,7 +56,6 @@
 			<artifactId>commons-io</artifactId>
 			<version>1.4</version>
 		</dependency>
-		
 		<!-- MyBatis -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -86,23 +81,21 @@
 		</dependency>
 		<!-- jackson -->
 		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-databind</artifactId>
-		    <version>2.13.4.1</version>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.13.4.1</version>
 		</dependency>
-		
 		<!-- validation -->
 		<dependency>
-		   <groupId>org.hibernate.validator</groupId>
-		   <artifactId>hibernate-validator</artifactId>
-		   <version>6.2.3.Final</version>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>6.2.3.Final</version>
 		</dependency>
-
-		<!-- Logback --> 
-		<dependency>                                    
-			<groupId>org.slf4j</groupId>                
-			<artifactId>jcl-over-slf4j</artifactId>     
-			<version>${jcloverslf4j.version}</version>  
+		<!-- Logback -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${jcloverslf4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -124,13 +117,22 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<finalName>mysite04</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.3.2</version>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>${tomcat.deploy.url}</url>
+					<server>tomcat-douzone2023</server>
+				</configuration>
+			</plugin>
 		</plugins>
-		<finalName>mysite04</finalName>
 	</build>
 </project>
