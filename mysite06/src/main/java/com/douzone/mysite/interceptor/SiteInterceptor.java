@@ -21,6 +21,7 @@ public class SiteInterceptor implements HandlerInterceptor {
 			throws Exception {
 		if(servletContext.getAttribute("sitevo") == null) {
 			SiteVo site = siteService.getSite();
+			System.out.println(site);
 			servletContext.setAttribute("sitevo", site);
 		}
 		
