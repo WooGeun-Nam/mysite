@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 import com.douzone.mysite.event.ApplicationContextEventListener;
 
@@ -18,19 +21,7 @@ public class MySiteApplication {
 		return new ApplicationContextEventListener();
 	}
 	
-	@Controller
-	public class TestController {
-		
-		@ResponseBody
-		@RequestMapping("/test")
-		public String test() {
-			return "Hello World Hi";
-		}
-	}
-	
 	public static void main(String[] args) {
 		SpringApplication.run(MySiteApplication.class, args);
-
 	}
-
 }

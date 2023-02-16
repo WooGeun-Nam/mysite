@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.douzone.mysite.exception.FileuploadServiceException;
 
 @Service
-@PropertySource("classpath:com/douzone/mysite/web/fileupload.properties")
 public class FileuploadService {
 
 	private final static String SAVE_PATH = "/Users/nam-woogeun/mysite-uploads/upload-images";
