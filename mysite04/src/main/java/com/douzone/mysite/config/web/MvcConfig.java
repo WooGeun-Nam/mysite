@@ -41,9 +41,6 @@ public class MvcConfig implements WebMvcConfigurer {
 	public StringHttpMessageConverter stringHttpMessageConverter() {
 		StringHttpMessageConverter messageConverter = new StringHttpMessageConverter();
 		
-//		List<MediaType> list = new ArrayList<>();
-//		list.add(new MediaType("text", "html", Charset.forName("utf-8")));
-		
 		messageConverter.setSupportedMediaTypes(
 			Arrays.asList(
 					new MediaType("text", "html", Charset.forName("utf-8"))

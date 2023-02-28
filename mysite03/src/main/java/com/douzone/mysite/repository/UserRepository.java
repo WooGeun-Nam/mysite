@@ -30,8 +30,13 @@ public class UserRepository {
 		return sqlSession.selectOne("user.findByEmailAndPassword", map);
 		// sqlSession.selectOne("user.findByEmailAndPassword", vo);
 	}
+
+	public UserVo findByEmail(String email) {
+		return sqlSession.selectOne("user.findByEmail", email);
+	}
 	
 	public void update(UserVo vo) {
 		sqlSession.update("user.update", vo);
 	}
+
 }
