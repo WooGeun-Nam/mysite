@@ -1,10 +1,11 @@
 package com.douzone.mysite.controller.api;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ public class GuestbookController {
 	private GuestbookService guestbookService;
 	
 	@PostMapping("")
-	public JsonResult ex01(@RequestBody GuestbookVo vo) {
+	public JsonResult addMessage(@RequestBody GuestbookVo vo) {
 		guestbookService.addMessage(vo);
 		
 		vo.setPassword("");
@@ -32,10 +33,14 @@ public class GuestbookController {
 	}
 
 	@GetMapping("")
-	public JsonResult ex01(@RequestParam(value = "sno", required = true, defaultValue = "0") Long startNo) {
+	public JsonResult list(@RequestParam(value = "sno", required = true, defaultValue = "0") Long startNo) {
 		List<GuestbookVo> list = guestbookService.getMessageList();
 
 		return JsonResult.success(list);
 	}
 	
+	@DeleteMapping("{no}")
+	public JsonResult deleteMessage(@PathVariable("no") Long no, @RequestBody String password) {
+		return JsonResult.success(guestbookService.deleteMessage(no, password));
+	}
 }

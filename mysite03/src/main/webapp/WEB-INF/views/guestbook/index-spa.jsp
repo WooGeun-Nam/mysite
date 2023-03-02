@@ -70,6 +70,9 @@ $(function(){
 				}
 				
 				render(response.data, true);
+				$("#add-form #input-name").val("");
+				$("#add-form #input-password").val("");
+				$("#add-form textarea").val("");
 			}
 		});
 	});
@@ -80,34 +83,41 @@ $(function(){
 		modal: true,
 		buttons: {
 			"삭제": function(){
-				console.log("ajax 삭제하기")
+				var no = $("#hidden-no").val();
 				
-				/*
 				$.ajax({
-					url: "${pageContext.request.contextPath}/guestbook/api/10",
+					url: "${pageContext.request.contextPath}/guestbook/api/" + no,
 					type: "delete",
 					dataType: "json",
+				    data: $("#password-delete").val(),
 					success: function(response) { 
 						if(response.result === 'fail') {
 							console.error(response.message);
 							return;
 						}
 						
-						console.log(response.data);
-						
-						response.data.forEach(function(vo){
-							render(vo);
-						});
-						// render(response.data);
+						if(!response.data) {
+							$(".validateTips-error").show();
+							$("#password-delete").val("");
+							return;
+						}
+						$("li[data-no='" + no + "']").remove();
+						$dialogDelete.dialog('close');
+						$("#password-delete").val("");
+						$(".validateTips-error").hide();
 					}
 				});	
-				*/
-				// $("li[data-no='10']").remove();
 			},
 			"취소": function(){
-				console.log("삭제 다이알로그의 폼 리셋");
+				$(".validateTips-error").hide();
+				$("#password-delete").val("");
 				$(this).dialog('close');
 			}
+		},
+		close: function(){
+			$(".validateTips-error").hide();
+			$("#password-delete").val("");
+			$(this).dialog('close');
 		}
 	});
 	
@@ -139,8 +149,8 @@ fetch();
 				<ul id="list-guestbook"></ul>
 			</div>
 			<div id="dialog-delete-form" title="메세지 삭제" style="display:none">
-  				<p class="validateTips normal">작성시 입력했던 비밀번호를 입력하세요.</p>
-  				<p class="validateTips error" style="display:none">비밀번호가 틀립니다.</p>
+  				<p class="validateTips-normal">작성시 입력했던 비밀번호를 입력하세요.</p>
+  				<p class="validateTips-error" style="display:none">비밀번호가 틀립니다.</p>
   				<form>
  					<input type="password" id="password-delete" value="" class="text ui-widget-content ui-corner-all">
 					<input type="hidden" id="hidden-no" value="">
