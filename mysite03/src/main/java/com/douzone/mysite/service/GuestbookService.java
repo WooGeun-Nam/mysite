@@ -28,4 +28,8 @@ public class GuestbookService {
 	public GuestbookVo getByNo(Long no) {
 		return guestbookRepository.findNo(no);
 	}
+
+	public List<GuestbookVo> getMessageList(Long no) {
+		return guestbookRepository.findAll(no);
+	}	
 }

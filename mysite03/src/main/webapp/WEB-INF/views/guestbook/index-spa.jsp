@@ -10,44 +10,113 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/assets/css/guestbook-spa.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/ejs/ejs.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
+var startNo = 0;
+var isEnd = false;
+var listItemTemplate = new EJS({
+	url: "${pageContext.request.contextPath }/assets/js/ejs/list-item-template.ejs"
+});
+
+var listTemplate = new EJS({
+	url: "${pageContext.request.contextPath }/assets/js/ejs/list-template.ejs"
+});
+
+var messageBox = function(title, message, callback){
+	$("#dialog-message p").text(message);
+	$("#dialog-message")
+		.attr("title", title)
+		.dialog({
+				height: 140,
+				modal: true,
+				buttons: {
+					"확인": function() {
+						$(this).dialog( "close" );
+					}
+				},
+				close: callback
+		});
+}
+
+/*
 var render = function(vo, mode) {
+	
 	var htmls = 
 		"<li data-no='" + vo.no + "'>" +
 		"	<strong>" + vo.name + "</strong>" +
-		"	<p>" + vo.message + "</p>" +
+		"	<p>" + vo.message.replace(/\n/gi, "<br/>") + "</p>" +
 		"	<strong></strong>" +
 		"	<a href='' data-no='" + vo.no + "'>삭제</a>" + 
 		"</li>";
 	
+	var htmls = listItemTemplate.render(vo);
+	
 	$("#list-guestbook")[mode? "prepend" : "append"](htmls);
 }
+*/
 
 var fetch = function() {
+	if(isEnd){
+		return;
+	}
+	
 	$.ajax({
-		url: "${pageContext.request.contextPath}/guestbook/api?sno=10",
-		type: "get",
-		dataType: "json",
-		success: function(response) { 
-			if(response.result === 'fail') {
+		url: '${pageContext.request.contextPath }/guestbook/api?sno=' + startNo,
+		async: true,
+		type: 'get',
+		dataType: 'json',
+		data: '',
+		success: function(response){
+			if(response.result != "success"){
 				console.error(response.message);
 				return;
 			}
+			// detect end
+			if(response.data.length == 0){
+				isEnd = true;
+				return;
+			}
+			// rendering
+			// $.each(response.data, function(index, vo){
+			//	render(vo);
+			// });
+			var htmls = listTemplate.render(response);
+			$("#list-guestbook").append(htmls);
 			
-			console.log(response.data);
-			
-			response.data.forEach(function(vo){
-				render(vo);
-			});
-			// render(response.data);
+			startNo = $('#list-guestbook li').last().data('no') || 0;
+		},
+		error: function(xhr, status, e){
+			console.error(status + ":" + e);
 		}
-	});	
+	});
 }
 
 $(function(){
 	$("#add-form").submit(function(event){
 		event.preventDefault();
+		var vo = {};
+		vo.name = $("#input-name").val();
+		if(vo.name == ''){
+			messageBox("방명록 글 남기기", "이름은 필수 항목 입니다.", function(){
+				$("#input-name").focus();
+			});
+			return;
+		}
+		vo.password = $("#input-password").val();
+		if(vo.password == ''){
+			messageBox("방명록 글 남기기", "비밀번호는 필수 항목 입니다.", function(){
+				$("#input-password").focus();
+			});
+			return;
+		}
+		vo.message = $("#tx-content").val();
+		if(vo.message == ''){
+			messageBox("방명록 글 남기기", "내용은 필수 항목 입니다.", function(){
+				$("#tx-content").focus();
+			});
+			return;
+		}
 		
 		// form serialization
 		var vo = {};
@@ -69,12 +138,25 @@ $(function(){
 					return;
 				}
 				
-				render(response.data, true);
-				$("#add-form #input-name").val("");
-				$("#add-form #input-password").val("");
-				$("#add-form textarea").val("");
+				//render(response.data, true);
+				var htmls = listItemTemplate.render(response.data);
+				$("#list-guestbook").prepend(htmls);
+				
+				// form reset
+				$("#add-form")[0].reset();
 			}
 		});
+	});
+	
+	// 창 스크롤 이벤트
+	$(window).scroll(function(){
+		var $window = $(this);
+		var windowHeight = $window.height();
+		var scrollTop = $window.scrollTop();
+		var documentHeight = $(document).height();
+		if(scrollTop + windowHeight + 10 > documentHeight){
+			fetch();
+		}
 	});
 	
 	// 삭제 다이알로그 jQuery 객체 미리 만들기
@@ -103,21 +185,16 @@ $(function(){
 						}
 						$("li[data-no='" + no + "']").remove();
 						$dialogDelete.dialog('close');
-						$("#password-delete").val("");
-						$(".validateTips-error").hide();
 					}
 				});	
 			},
 			"취소": function(){
-				$(".validateTips-error").hide();
-				$("#password-delete").val("");
 				$(this).dialog('close');
 			}
 		},
 		close: function(){
 			$(".validateTips-error").hide();
 			$("#password-delete").val("");
-			$(this).dialog('close');
 		}
 	});
 	
