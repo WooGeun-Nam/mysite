@@ -12,8 +12,7 @@ export default function Index() {
             const response = await fetch('/api/gallery', {
                 method: 'get',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'applcation/json'
+                    'Accept': 'application/json'
                 }
             });
 
@@ -35,7 +34,6 @@ export default function Index() {
     const notifyImage = {
         add: async function (comment, file) {
             try {
-
                 // Create FormData
                 const formData = new FormData();
                 formData.append('comments', comment);
@@ -44,7 +42,7 @@ export default function Index() {
                 // Post
                 const response = await fetch(`/api/gallery`, {
                     method: 'post',
-                    headers: {'Accept': 'applcation/json'},
+                    headers: {'Accept': 'application/json'},
                     body: formData
                 });
 
@@ -70,7 +68,7 @@ export default function Index() {
                 // Delete
                 const response = await fetch(`/api/gallery/${no}`, {
                     method: 'delete',
-                    headers: {'Accept': 'applcation/json'},
+                    headers: {'Accept': 'application/json'},
                     body: null
                 });
 
@@ -84,9 +82,8 @@ export default function Index() {
                 if (json.result !== 'success') {
                     throw json.message;
                 }
-
                 // re-rendering(update)
-                setImageList(imageList.filter((item) => item.no !== parseInt(json.data)));
+                setImageList(imageList.filter((item) => item.no != json.data.no));
             } catch (err) {
                 console.error(err);
             }

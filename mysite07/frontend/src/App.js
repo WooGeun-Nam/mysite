@@ -1,16 +1,14 @@
 import React from 'react';
+import './assets/scss/App.scss';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {Routes, Route} from 'react-router';
-import './assets/scss/App.scss';
-
-import Main from './component/main'
+import Main from './component/main';
 import Gallery from './component/gallery';
 import Guestbook from './component/guestbook';
 import SignIn from './component/user/SignIn';
 import SignUp from './component/user/SignUp';
 import Settings from './component/user/Settings';
 import Error404 from './component/error/Error404';
-
 
 export default function App() {
     return (

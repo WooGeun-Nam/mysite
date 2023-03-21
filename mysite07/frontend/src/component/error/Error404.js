@@ -1,5 +1,5 @@
 import React from 'react';
-import MySiteLayout from "../../layout/MySiteLayout.js";
+import MySiteLayout from "../../layout/MySiteLayout";
 
 export default function Gallery() {
     return (

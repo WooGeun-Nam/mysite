@@ -1,6 +1,7 @@
 {
-  "name": "mysite07",
+  "name": "mysite07-frontend",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "build": "npm install && npx webpack --config config/webpack.config.js --progress --mode production",

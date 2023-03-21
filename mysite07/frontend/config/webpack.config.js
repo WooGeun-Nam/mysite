@@ -29,20 +29,20 @@ module.exports = (env) => ({
             }
         }]
     },
-    devtool: "eval-source-map",
     plugins: [
         new CaseSensitivePathsPlugin()
-    ],        
+    ],    
+    devtool: "eval-source-map",
     devServer: {
         host: "0.0.0.0",
         port: 9090,
         proxy: {
             '/api': 'http://localhost:8080',
-            '/assets/upload-images': 'http://localhost:8888'
+            '/assets/gallery': 'http://localhost:8080'
         },
         liveReload: true,
-        compress: true,
         hot: false,
+        compress: true,
         historyApiFallback: true
     }
 });

@@ -2,7 +2,7 @@
 ```bash
 $ npm init -y
 $ npm i -D webpack webpack-cli webpack-dev-server style-loader css-loader sass-loader node-sass babel-loader @babel/core @babel/cli @babel/preset-env @babel/preset-react case-sensitive-paths-webpack-plugin
-$ npm i react react-dom prop-types styled-components react-addons-update react-router react-router-dom
+$ npm i react react-dom prop-types styled-components react-modal react-addons-update react-router react-router-dom
 ```
 
 
