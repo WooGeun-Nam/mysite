@@ -67,4 +67,25 @@ desc gallery;
 
 			select no, url
 			from gallery
-			order by no desc
+			order by no desc;
+            
+delete from gallery where no = '2';
+
+select * from guestbook;
+
+delete from guestbook;
+
+select * from emaillist;
+
+    		  select no, first_name, last_name, email
+      		    from emaillist
+ 		    order by no desc;
+            
+insert into emaillist values(null, '도', '우너', 'douner@gmail.com');
+
+delete from emaillist where no = 6;
+
+select no, first_name, last_name, email
+from emaillist
+where concat(first_name,last_name) LIKE '%keyword%' or email like '%keyword%'
+order by no desc;
